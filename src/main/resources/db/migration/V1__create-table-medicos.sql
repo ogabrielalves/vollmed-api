@@ -1,0 +1,14 @@
+CREATE TABLE medico (
+    id SERIAL PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    crm VARCHAR(20) NOT NULL,
+    especialidade VARCHAR(50) NOT NULL,
+    logradouro VARCHAR(100) NOT NULL,
+    bairro VARCHAR(100) NOT NULL,
+    cep VARCHAR(9) NOT NULL,
+    numero VARCHAR(10) NOT NULL,
+    complemento VARCHAR(100) NOT NULL,
+    cidade VARCHAR(255) NOT NULL,
+    uf VARCHAR(2) NOT NULL
+);
