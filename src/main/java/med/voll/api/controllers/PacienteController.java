@@ -2,8 +2,8 @@ package med.voll.api.controllers;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.dto.DadosCadastroPaciente;
-import med.voll.api.dto.DadosListagemPaciente;
+import med.voll.api.dto.paciente.DadosCadastroPaciente;
+import med.voll.api.dto.paciente.DadosListagemPaciente;
 import med.voll.api.models.Paciente;
 import med.voll.api.repositories.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
