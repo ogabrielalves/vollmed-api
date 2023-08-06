@@ -5,13 +5,12 @@ import jakarta.validation.Valid;
 import med.voll.api.dto.medico.DadosAtualizacaoMedico;
 import med.voll.api.dto.medico.DadosCadastroMedico;
 import med.voll.api.dto.medico.DadosListagemMedico;
-import med.voll.api.models.Endereco;
-import med.voll.api.models.Medico;
-import med.voll.api.repositories.MedicoRepository;
+import med.voll.api.services.MedicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,38 +18,34 @@ import org.springframework.web.bind.annotation.*;
 public class MedicoController {
 
     @Autowired
-    private MedicoRepository repository;
+    private MedicoService service;
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody @Valid DadosCadastroMedico dados) {
-        repository.save(new Medico(dados));
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroMedico dados) {
+        return service.cadastrar(dados);
     }
 
     @GetMapping
-    public Page<DadosListagemMedico> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        return repository
-                .findAllByAtivoTrue(paginacao)
-                .map(DadosListagemMedico::new);
+    public ResponseEntity<Page<DadosListagemMedico>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+        return service.listar(paginacao);
     }
 
     @PutMapping
     @Transactional
-    public void atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados) {
-        Medico medico = repository.getReferenceById(dados.id());
-        medico.atulizarInformacoes(dados);
+    public ResponseEntity<?> atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados) {
+        return service.atualizar(dados);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void deletar(@PathVariable Long id) {
-        repository.deleteById(id);
+    public ResponseEntity<?> deletar(@PathVariable Long id) {
+        return service.deletar(id);
     }
 
     @DeleteMapping("desativar/{id}")
     @Transactional
-    public void desativar(@PathVariable Long id) {
-        Medico medico = repository.getReferenceById(id);
-        medico.excluir();
+    public ResponseEntity<?> desativar(@PathVariable Long id) {
+        return service.desativar(id);
     }
 }
