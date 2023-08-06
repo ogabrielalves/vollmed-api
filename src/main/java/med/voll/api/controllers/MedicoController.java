@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/medicos")
@@ -22,8 +23,8 @@ public class MedicoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroMedico dados) {
-        return service.cadastrar(dados);
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroMedico dados, UriComponentsBuilder uriBuilder) {
+        return service.cadastrar(dados, uriBuilder);
     }
 
     @GetMapping
@@ -43,9 +44,14 @@ public class MedicoController {
         return service.deletar(id);
     }
 
-    @DeleteMapping("desativar/{id}")
+    @DeleteMapping("/desativar/{id}")
     @Transactional
     public ResponseEntity<?> desativar(@PathVariable Long id) {
         return service.desativar(id);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detalhar(@PathVariable Long id) {
+        return service.detalhar(id);
     }
 }

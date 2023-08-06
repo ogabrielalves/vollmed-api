@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 
 @Service
@@ -23,16 +26,18 @@ public class MedicoService {
     @Autowired
     private MedicoRepository repository;
 
-    public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroMedico dados) {
+    public ResponseEntity<?> cadastrar(DadosCadastroMedico dados, UriComponentsBuilder uriBuilder) {
         try {
-            repository.save(new Medico(dados));
-            return ResponseEntity.ok().build();
+            Medico novoMedico = new Medico(dados);
+            repository.save(novoMedico);
+            URI uri = uriBuilder.path("/medicos/{id}").buildAndExpand(novoMedico.getId()).toUri();
+            return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(novoMedico));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e);
         }
     }
 
-    public ResponseEntity<Page<DadosListagemMedico>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemMedico>> listar(Pageable paginacao) {
         try {
             Page<DadosListagemMedico> listagemMedicoPage = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
             return ResponseEntity.ok(listagemMedicoPage);
@@ -41,7 +46,7 @@ public class MedicoService {
         }
     }
 
-    public ResponseEntity<?> atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados) {
+    public ResponseEntity<?> atualizar(DadosAtualizacaoMedico dados) {
         try {
             Medico medico = repository.getReferenceById(dados.id());
             medico.atulizarInformacoes(dados);
@@ -51,7 +56,7 @@ public class MedicoService {
         }
     }
 
-    public ResponseEntity<?> deletar(@PathVariable Long id) {
+    public ResponseEntity<?> deletar(Long id) {
         try {
             repository.deleteById(id);
             return ResponseEntity.noContent().build();
@@ -60,11 +65,20 @@ public class MedicoService {
         }
     }
 
-    public ResponseEntity<?> desativar(@PathVariable Long id) {
+    public ResponseEntity<?> desativar(Long id) {
         try {
             Medico medico = repository.getReferenceById(id);
             medico.excluir();
             return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e);
+        }
+    }
+
+    public ResponseEntity<?> detalhar(Long id) {
+        try {
+            Medico medico = repository.getReferenceById(id);
+            return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e);
         }
