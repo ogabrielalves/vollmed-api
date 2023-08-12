@@ -2,6 +2,7 @@ package med.voll.api.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import med.voll.api.dto.paciente.DadosAtualizacaoPaciente;
 import med.voll.api.dto.paciente.DadosCadastroPaciente;
 
 @Entity(name = "Pacientes")
@@ -30,5 +31,23 @@ public class Paciente {
         this.cpf = dados.cpf();
         this.telefone = dados.telefone();
         this.endereco = new Endereco(dados.endereco());
+    }
+
+    public void atulizarInformacoes(DadosAtualizacaoPaciente dadosAtualizados) {
+        if (dadosAtualizados.nome() != null) {
+            this.nome = dadosAtualizados.nome();
+        }
+
+        if (dadosAtualizados.telefone() != null) {
+            this.telefone = dadosAtualizados.telefone();
+        }
+
+        if(dadosAtualizados.email() != null) {
+            this.email = dadosAtualizados.email();
+        }
+
+        if(dadosAtualizados.endereco() != null) {
+            this.endereco.atualizarEndereco(dadosAtualizados.endereco());
+        }
     }
 }
