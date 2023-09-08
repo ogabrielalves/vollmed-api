@@ -1,7 +1,7 @@
 package med.voll.api.services.validations.consulta;
 
 import med.voll.api.dto.consulta.DadosAgendamentoConsulta;
-import med.voll.api.exceptions.ValidacaoException;
+import med.voll.api.infra.exceptions.ValidacaoException;
 import med.voll.api.repositories.ConsultaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

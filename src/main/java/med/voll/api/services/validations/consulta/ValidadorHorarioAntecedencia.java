@@ -1,8 +1,7 @@
 package med.voll.api.services.validations.consulta;
 
 import med.voll.api.dto.consulta.DadosAgendamentoConsulta;
-import med.voll.api.exceptions.ValidacaoException;
-import org.springframework.cglib.core.Local;
+import med.voll.api.infra.exceptions.ValidacaoException;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
