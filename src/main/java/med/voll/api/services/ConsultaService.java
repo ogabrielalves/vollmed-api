@@ -2,7 +2,7 @@ package med.voll.api.services;
 
 import med.voll.api.dto.consulta.DadosAgendamentoConsulta;
 import med.voll.api.dto.consulta.DadosDetalhamentoConsulta;
-import med.voll.api.exceptions.ValidacaoException;
+import med.voll.api.infra.exceptions.ValidacaoException;
 import med.voll.api.models.Consulta;
 import med.voll.api.models.Medico;
 import med.voll.api.models.Paciente;
@@ -11,7 +11,6 @@ import med.voll.api.repositories.MedicoRepository;
 import med.voll.api.repositories.PacienteRepository;
 import med.voll.api.services.validations.consulta.ValidadorAgendamentoDeConsulta;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

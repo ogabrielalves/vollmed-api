@@ -1,5 +1,8 @@
 package med.voll.api.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.dto.medico.DadosAtualizacaoMedico;
@@ -16,6 +19,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/medicos")
+@Tag(name = "Médico")
+@SecurityRequirement(name = "bearer-key")
 public class MedicoController {
 
     @Autowired
